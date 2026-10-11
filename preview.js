@@ -33,8 +33,9 @@
     const dep = DEPRESS[dom] || 2;
     if (elev > 6.3) return "Daylight";
     if (elev > -0.3) return "Golden hour";
-    if (elev > -1.4) return "Sunset";
-    if (elev > -dep - 0.3) return "Afterglow";
+    const rise = !!(window.AG && window.AG.rise);
+    if (elev > -1.4) return rise ? "Sunrise" : "Sunset";
+    if (elev > -dep - 0.3) return rise ? "Dawn glow" : "Afterglow";
     if (elev > -6.3) return "Blue hour";
     return "Night";
   }

@@ -555,7 +555,7 @@
       const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement && n.parentElement.closest("[data-keep],script,style,#home") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT });
       for (let n; (n = w.nextNode());) { if (done.get(n) === n.data) continue; let s = n.data; for (const [a, b] of R) s = s.replace(a, b); if (s !== n.data) n.data = s; done.set(n, s); }
     };
-    let pend = false; new MutationObserver(() => { if (pend) return; pend = true; requestAnimationFrame(() => { pend = false; fix(document.body); }); }).observe(document.body, { childList: true, subtree: true, characterData: true });
+    new MutationObserver(muts => { for (const m of muts) { const t = m.type === "characterData" ? m.target.parentNode : m.target; if (t) fix(t); } }).observe(document.body, { childList: true, subtree: true, characterData: true });
     fix(document.body);
   }
 
